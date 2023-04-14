@@ -3,12 +3,27 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+require('dotenv').config();
+const connectionString =
+process.env.MONGO_CON
+mongoose = require('mongoose');
+mongoose.connect(connectionString,
+{useNewUrlParser: true,
+useUnifiedTopology: true});
+//Get the default connection
+var db = mongoose.connection;
+//Bind connection to error event
+db.on('error', console.error.bind(console, 'MongoDB connectionerror:'));
+db.once("open", function(){
+console.log("Connection to DB succeeded")});
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var boardRouter = require('./routes/board');
 var jarRouter = require('./routes/jar');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
+var jar = require("./models/jar");
 
 var app = express();
 
@@ -27,6 +42,36 @@ app.use('/users', usersRouter);
 app.use('/board', boardRouter);
 app.use('/jar', jarRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
+
+// We can seed the collection if needed on server start
+async function recreateDB(){
+ // Delete everything
+ await jar.deleteMany();
+ let instance1 = new
+jar({material:"plastic",cost:135,colour:"white"});
+ instance1.save().then(doc=>{
+ console.log("First object saved")}
+ ).catch(err=>{
+ console.error(err)
+ });
+ let instance2 = new
+ jar({material:"steel",cost:100,colour:"blue"});
+  instance2.save().then(doc=>{
+  console.log("Second object saved")}
+  ).catch(err=>{
+  console.error(err)
+  });
+  let instance3 = new
+  jar({material:"rubber",cost:198,colour:"red"});
+   instance3.save().then(doc=>{
+   console.log("Third object saved")}
+   ).catch(err=>{
+   console.error(err)
+   });
+}
+let reseed = true;
+if (reseed) {recreateDB();}
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
