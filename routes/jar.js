@@ -5,4 +5,6 @@ var router = express.Router();
 router.get('/', jar_controlers.jar_view_all_Page );
 /* GET detail jar page */
 router.get('/detail', jar_controlers.jar_view_one_Page);
+/* GET create costume page */
+router.get('/create', jar_controlers.jar_create_Page);
 module.exports = router;
