@@ -1,0 +1,39 @@
+extends layout
+block content
+ h1= title
+  - let jarid = toShow._id
+  - let material = toShow.material
+  - let colour = toShow.colour
+  - let cost = toShow.cost
+  div.row(class='mb-2')
+   div.mr-1 ID is
+   div #{jarid}
+  - let actionid = "/resource/jar/" + jarid
+  form(id='jarForm', action= actionid, method="PUT")
+   div.form-group
+     label.jarAttr(for='material') jar material
+     input#material(type='text', name='material', value= material )
+   div.form-group
+     label.jarAttr(for='colour') jar colour
+     input#colour(type='text', name='colour', value= colour )
+   div.form-group
+     label.jarAttr(for='cost') jar cost
+     input#cost(type='number', name='cost', value= cost )
+   input(type="submit")
+  script.
+   document.forms['jarForm'].addEventListener('submit', (event) => {
+    event.preventDefault();
+    // TODO do something here to show user that form is being submitted
+    fetch(event.target.action, {
+     method: 'PUT',
+     body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+    }).then((resp) => {
+     return resp.json(); // or resp.text() or whatever the server sends
+    }).then((body) => {
+     alert("Update succeded")
+     // TODO handle body
+    }).catch((error) => {
+     // TODO handle error
+     alert("Update failed " + error )
+    });
+   });

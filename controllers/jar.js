@@ -133,3 +133,29 @@ exports.jar_create_Page = function(req, res) {
     res.send(`{'error': '${err}'}`);
     }
    };
+   // Handle building the view for updating a jar.
+// query provides the id
+exports.jar_update_Page = async function(req, res) {
+    console.log("update view for item "+req.query.id)
+    try{
+    let result = await jar.findById(req.query.id)
+    res.render('jarupdate', { title: 'jar Update', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
+   // Handle a delete one view with id from query
+exports.jar_delete_Page = async function(req, res) {
+    console.log("Delete view for id " + req.query.id)
+    try{
+    result = await jar.findById(req.query.id)
+    res.render('jardelete', { title: 'jar Delete', toShow:
+   result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
+    }
+   };
