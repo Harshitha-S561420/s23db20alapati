@@ -40,10 +40,10 @@ exports.jar_create_post = async function(req, res) {
     // We are looking for a body, since POST does not have query parameters.
     // Even though bodies can be in many different formats, we will be picky
     // and require that it be a json object
-    // {"jar_type":"goat", "cost":12, "size":"large"}
-    document.jar_type = req.body.jar_type;
+    // {"jar_material":"goat", "cost":12, "colour":"red"}
+    document.material = req.body.material;
+    document.colour = req.body.colour;
     document.cost = req.body.cost;
-    document.size = req.body.size;
     try{
     let result = await document.save();
     res.send(result);
@@ -54,9 +54,21 @@ exports.jar_create_post = async function(req, res) {
     }
 };
 // Handle jar delete form on DELETE.
-exports.jar_delete = function(req, res) {
+/*exports.jar_delete = function(req, res) {
  res.send('NOT IMPLEMENTED: jar delete DELETE ' + req.params.id);
-};
+};*/
+// Handle jar delete on DELETE.
+exports.jar_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await jar.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+   };
 /*
 // Handle jar update form on PUT.
 exports.jar_update_put = function(req, res) {
@@ -70,8 +82,9 @@ ${JSON.stringify(req.body)}`)
  let toUpdate = await jar.findById( req.params.id)
  // Do updates of properties
  if(req.body.material) toUpdate.material = req.body.material;
- if(req.body.cost) toUpdate.cost = req.body.cost;
  if(req.body.colour) toUpdate.colour = req.body.colour;
+ if(req.body.cost) toUpdate.cost = req.body.cost;
+ 
  let result = await toUpdate.save();
  console.log("Sucess " + result)
  res.send(result)
@@ -92,5 +105,18 @@ exports.jar_view_all_Page = async function(req, res) {
     catch(err){
     res.status(500);
     res.send(`{"error": ${err}}`);
+    }
+   };
+   // Handle a show one view with id specified by query
+exports.jar_view_one_Page = async function(req, res) {
+    console.log("single view for id " + req.query.id)
+    try{
+    result = await jar.findById( req.query.id)
+    res.render('jardetail',
+   { title: 'jar Detail', toShow: result });
+    }
+    catch(err){
+    res.status(500)
+    res.send(`{'error': '${err}'}`);
     }
    };
