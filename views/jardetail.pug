@@ -1,20 +1,23 @@
 extends layout
 block content
  h1= title
- - let jarid = toShow._id
- - let material = toShow.material
- - let colour = toShow.colour
- - let cost = toShow.cost
- div
-  div.row
-   div(class='jarAttr mr-3') jar ID is:
-   div #{jarid}
-  div.row
-   div(class='jarAttr mr-3') material is:
-   div #{material}
-  div.row
-   div(class='jarAttr mr-3') jar colour is:
-   div #{colour}
-  div.row
-    div(class='jarAttr mr-3') jar Cost is:
-    div #{cost}
+ if (toShow == null)
+  h2 No instance to detail
+ else
+  - let jarid = toShow._id
+  - let material = toShow.material
+  - let colour = toShow.colour
+  - let cost = toShow.cost
+  div
+   div.row
+    div(class='jarAttr mr-3') jar ID is:
+    div #{jarid}
+   div.row
+    div(class='jarAttr mr-3') material is:
+    div #{material}
+   div.row
+    div(class='jarAttr mr-3') jar colour is:
+    div #{colour}
+   div.row
+     div(class='jarAttr mr-3') jar Cost is:
+     div #{cost}

@@ -1,17 +1,16 @@
 extends layout
-
 block content
  h1= title
  form(id='jarForm', action="/resource/jar", method="POST")
   div.form-group
     label.jarAttr(for='material') jar material
-    input#material(type='String', name='material')
+    input#brand(type='String', name='material')
   div.form-group
     label.jarAttr(for='colour') jar colour
-    input#size(type='String', name='colour')
+    input#cost(type='String', name='colour')
   div.form-group
     label.jarAttr(for='cost') jar cost
-    input#cost(type='number', name='cost')
+    input#color(type='number', name='cost')
   input(type="submit")
  script.
   document.forms['jarForm'].addEventListener('submit', (event) => {
@@ -24,9 +23,9 @@ block content
     return resp.json(); // or resp.text() or whatever the server sends
    }).then((body) => {
     alert("Save succeded")
-     // TODO handle body
+    // TODO handle body
    }).catch((error) => {
-     // TODO handle error
-     alert("Save failed " + error )
+    // TODO handle error
+    alert("Save failed " + error )
    });
   });
