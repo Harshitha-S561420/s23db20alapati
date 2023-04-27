@@ -10,7 +10,7 @@ block content
     input#cost(type='String', name='colour')
   div.form-group
     label.jarAttr(for='cost') jar cost
-    input#color(type='number', name='cost')
+    input#color(type='number', name='cost',min=4,max=125)
   input(type="submit")
  script.
   document.forms['jarForm'].addEventListener('submit', (event) => {

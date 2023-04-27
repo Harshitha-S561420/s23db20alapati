@@ -1,14 +1,20 @@
-xtends layout
+extends layout
 
 block content
   h1= title
   - let items = results
+  - let destination1 = `dispatch(\"/jar/create\")`
+  button.btn( class="btn-primary ml-1", onclick= destination1) Create
   div(claass="container-fluid mt-3")
    div(class="row m-1")
     each item,index in items
      - let destination = `dispatch(\"/jar/update?id=${item._id}\")`
+     - let destination2 = `dispatch(\"/jar/detail?id=${item._id}\")`
+     - let destination3 = `dispatch(\"/jar/delete?id=${item._id}\")`
      div(class="col-sm-3 bg-info m-2 p-4" onclick=`buy(${index})`) #{item.material} - #{item.colour } - #{item.cost}
       button.btn( class="btn-primary ml-1", onclick= destination) Update
+      button.btn( class="btn-primary ml-1", onclick= destination2) Detail
+      button.btn( class="btn-primary ml-1", onclick= destination3) Delete
   script.
    function buy(itemNo)
    {
